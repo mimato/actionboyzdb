@@ -12,6 +12,7 @@ const IndexPage = ({ data: { list } }) => (
       <table>
         <thead>
           <tr>
+            <th></th>
             <th>Title</th>
             <th>Release Date</th>
           </tr>
@@ -19,9 +20,9 @@ const IndexPage = ({ data: { list } }) => (
         <tbody>
           {list.nodes[0].items.map((movie, index) => (
             <tr key={index}>
+              <td><img src={movie.poster_path.childImageSharp.fixed.src} alt="Movie poster"/></td>
               <td>{movie.title}</td>
               <td>{movie.release_date}</td>
-              <td><img src={movie.poster_path.publicURL} alt="Movie poster"/></td>
             </tr>
           ))}
         </tbody>
@@ -45,9 +46,12 @@ export const pageQuery = graphql`
           overview
           release_date(formatString: "YYYY-MM-DD")
           poster_path {
-            publicURL
+            childImageSharp {
+              fixed(height:100, quality:90){
+                src
+              }
+            }
           }
-          backdrop_path
         }
       }
     }
