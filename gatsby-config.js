@@ -1,8 +1,12 @@
+require('dotenv').config({
+  path: `.env`,
+})
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Action Boyz DB`,
+    description: `For when you really need to know something incredibly unimportant.`,
+    author: `Mia Henderson`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -27,8 +31,35 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
+    {
+      resolve: 'gatsby-source-tmdb',
+      options: {
+        apiKey: process.env.API_KEY,
+        sessionID: process.env.SESSION_ID,
+        language: 'en-US',
+        region: 'US',
+        modules: {
+          account: {
+            activate: true,
+            endpoints: {
+              list: 'accountLists',
+            },
+          },
+          movie: {
+            activate: true,
+          },
+          person: {
+            activate: true,
+          },
+          company: {
+            activate: true,
+          },
+        },
+        timezone: 'America/New_York',
+        reqPerTenSeconds: 36,
+        poster: true,
+        backdrop: false,
+      },
+    },
   ],
 }
